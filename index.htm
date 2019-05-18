@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title>3D C-Space Renderer</title>
+</head>
+<style>
+#workspace {
+	width: 600px;
+	height: 600px; 
+	border: 4px solid black;
+}
+#cspace {
+	width: 600px;
+	height: 600px;
+	border: 4px solid black;
+}
+.wrapper {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(610px, 1fr));
+	max-width: 1300px;
+}
+.block {
+	display: block;
+}
+</style>
+
+<body bgcolor="#E6E6E6">
+	<div class="wrapper">
+		<div class="block">
+
+			<h1>Workspace</h1>
+			<canvas id="workspace" width="600" height="600"
+			onmousemove="onMouseMove()" onmouse>
+				Please use a browser that supports "canvas"
+			</canvas>
+			
+			<p><b>Grid:
+			<button onclick="onGridOn()"			>Grid On</button>
+			<button onclick="onGridOff()"			>Grid Off</button>
+			</b></p>
+
+			<p><b>Obstacles:
+			<button onclick="onButtonRectangle()"	>Rectangle</button>
+			<button onclick="onButtonTriangle()"	>Triangle</button>
+			<button onclick="onButtonLine()"		>Line</button>
+			<button onclick="onButtonReset()"		>Reset Workspace</button>
+			</b></p>
+
+			<p><b>Robot: 
+			<button onclick="onButtonRectRobot()"	>Rectangle</button>
+			<button onclick="onButtonTriRobot()"	>Triangle</button>
+			<button onclick="onButtonLineRobot()"	>Line</button>
+			<button onclick="onButtonGoal()"		>Set Goal</button>
+			</b></p>
+
+			<p><b>Rendering:
+			<button onclick="onButton2DRender()" 	><b>2D</b></button>
+			<button onclick="onButton3DRender()" 	><b>3D</b></button>
+			</b></p>
+
+		</div>
+		<div class="block">
+
+			<h1>Configuration space</h1>
+			<canvas id="cspace" width="600" height="600">
+				Please use a browser that supports "canvas"
+			</canvas>
+
+			<br>
+			<p><b>RRT: 
+			<button onclick="onButtonRRT()"			>Create</button>
+			<!--button onclick="onButtonRRTNext()"		>Next Point</button-->
+			<!--button onclick="onButtonRRTRun()"		>Run</button-->
+			</b></p>
+			<!--button onclick="onButtonTraverse()"	>Traverse RRT</button-->
+
+		</div>
+	</div>
+
+	<script src="util.js"></script>
+	<script src="vector2.js"></script>
+	<script src="vector3.js"></script>
+	<script src="polygon.js"></script>
+	<script src="robot.js"></script>
+	<script src="workspace.js"></script>
+	<script src="cspace.js"></script>
+	<script src="rrt.js"></script>
+	<script src="three.js"></script>
+	<script src="orbitcontrols.js"></script>
+	<script src="main.js"></script>
+	<script>window.onload = main</script>
+
+</body></html>
