@@ -27,33 +27,12 @@ var CONVEX_POLYGON = 4
 var GRID_WIDTH = 15.0
 
 // Apparently, % in js isn't actually a modulus, it's remainder. Returns a % b
-function modulus(a, b) {
+function modulus(a: number, b: number): number {
 	return a - b * Math.floor(a / b)
 }
 
-function getRandomInt(max) {
+function getRandomInt(max: number): number {
 	return Math.floor(Math.random() * Math.floor(max))
-}
-
-function drawGrid(context, width, height) {
-	context.lineWidth = 1
-	context.strokeStyle = 'rgb(190, 190, 190)'
-
-	//Draw grid lines
-	for(i = 0; i <= width; i += GRID_WIDTH) {
-		context.beginPath()
-		context.moveTo(i, 0)
-		context.lineTo(i, height)
-		context.closePath()
-		context.stroke()
-	}
-	for(i = 0; i <= height; i += GRID_WIDTH) {
-		context.beginPath()
-		context.moveTo(0, i)
-		context.lineTo(width, i)
-		context.closePath()
-		context.stroke()
-	}
 }
 
 // https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm#Algorithm
