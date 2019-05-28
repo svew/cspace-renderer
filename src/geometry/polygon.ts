@@ -1,4 +1,5 @@
 
+// Defines a simple polygon
 class Polygon {
 	static readonly DEFAULT_STROKE_STYLE = 'rgb(255, 51, 0)'
 	static readonly DEFAULT_FILL_STYLE = 'rgb(255, 150, 100)'

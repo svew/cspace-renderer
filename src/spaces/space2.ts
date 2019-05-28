@@ -1,29 +1,31 @@
 
-abstract class Space2 {
-	public static readonly GRID_WIDTH = 15
+abstract class CanvasSpace {
 
 	protected canvas: HTMLCanvasElement
 	protected context: CanvasRenderingContext2D
-	protected width: number
-	protected height: number
+	protected canvasWidth: number
+	protected canvasHeight: number
+	protected canvasGridLines: boolean
+	protected canvasGridWidth: number
 
-	protected objects: Polygon[]
-	protected robots: Robot[]
-
-	Space2(width: number, height: number, grid: boolean = true) {
-		this.width = width
-		this.height = height
+	constructor(width: number, height: number, gridLines: boolean = true, gridWidth: number = 15) {
+		this.canvasWidth = width
+		this.canvasHeight = height
+		this.canvasGridLines = gridLines
+		this.canvasGridWidth = gridWidth
 		
 		this.setupContext()
-		if(grid) {
+		if(this.canvasGridLines) {
 			this.setupGrid()
 		}
 	}
 
 	private setupContext() {
+		// Sets up a canvas for grid objects to be drawn on
+
 		this.canvas = document.createElement('canvas')
-		this.canvas.width = this.width
-		this.canvas.height = this.height
+		this.canvas.width = this.canvasWidth
+		this.canvas.height = this.canvasHeight
 		
 		this.context = this.canvas.getContext('2d')
 		this.setupGrid()
@@ -33,29 +35,34 @@ abstract class Space2 {
 	}
 	
 	private setupGrid() {
+		// Draws a grid on the space's canvas
+		
 		this.context.lineWidth = 1
 		this.context.strokeStyle = 'rgb(190, 190, 190)'
 
 		//Draw grid lines
-		for(let i = 0; i <= this.width; i += Space2.GRID_WIDTH) {
+		for(let i = 0; i <= this.canvasWidth; i += this.canvasGridWidth) {
 			this.context.beginPath()
 			this.context.moveTo(i, 0)
-			this.context.lineTo(i, this.height)
+			this.context.lineTo(i, this.canvasHeight)
 			this.context.closePath()
 			this.context.stroke()
 		}
-		for(let i = 0; i <= this.height; i += Space2.GRID_WIDTH) {
+		for(let i = 0; i <= this.canvasHeight; i += this.canvasGridWidth) {
 			this.context.beginPath()
 			this.context.moveTo(0, i)
-			this.context.lineTo(this.width, i)
+			this.context.lineTo(this.canvasWidth, i)
 			this.context.closePath()
 			this.context.stroke()
 		}
 	}
 
-	public addObstacle(o: Polygon): void {
-
+	draw(context: CanvasRenderingContext2D) {
+		context.drawImage(this.canvas, 0, 0)
 	}
+}
 
+// A continuous 2D space, populated by polygons
+class FreeSpace2 extends CanvasSpace {
 
 }
