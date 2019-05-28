@@ -173,9 +173,4 @@ RRT.prototype.draw3D = function(scene) {
 	scene.add(line)
 }
 
-var RRTNode = function(position) {
-	this.position = position
-	this.parent = null
-	this.highlight = false
-}
 
