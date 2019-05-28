@@ -16,7 +16,7 @@ class Convex extends Polygon {
 	}
 
 	static isConvex(vertices: Vector2[]): boolean {
-
+		//TODO
 	}
 
 	static minkowski(s0: Convex, s1: Convex): Convex {
@@ -64,5 +64,12 @@ class Convex extends Polygon {
 		} while(!(i == n && j == m))
 	
 		return new Convex(t)
+	}
+}
+
+class Line extends Convex {
+
+	constructor(p0: Vector2, p1: Vector2) {
+		super([p0, p1])
 	}
 }

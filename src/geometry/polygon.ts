@@ -20,6 +20,10 @@ class Polygon {
 		this.fillStyle = Polygon.DEFAULT_FILL_STYLE
 	}
 
+	setColor(color: string) {
+		
+	}
+
 	draw(context: CanvasRenderingContext2D) {
 		if(this.n == 1) {
 			this.vertices[0].draw(context, this.strokeStyle)

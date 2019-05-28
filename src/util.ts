@@ -35,55 +35,6 @@ function getRandomInt(max: number): number {
 	return Math.floor(Math.random() * Math.floor(max))
 }
 
-// https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm#Algorithm
-// But only kinda, not actually all that close
-function bresenhams(start, end) {
-	start = start.clone()
-	end = end.clone()
-	let out = []
-
-	let v = end.subtract(start).normalize()
-	
-	if(v.y == 0 || isNaN(v.y)) {
-		throw Error('Direction vector v has no y component, you should have taken care of this already')
-	}
-
-	// Shift start up to closest upper level
-	if(Math.ceil(start.y) != start.y) {
-		let dy = Math.ceil(start.y) - start.y
-		bresenhamsHelper(start, v, dy)
-	}
-	
-	// Shift end down to closest ending level
-	if(Math.floor(end.y) != end.y) {
-		let dy = Math.floor(end.y) - end.y
-		bresenhamsHelper(end, v, dy)
-	}
-
-	// If start is now above end, it means no levels were intersected, exit
-	if(start.y > end.y) {
-		return out
-	}
-
-	// Otherwise, continue up from start
-	for(let i = 0; i <= end.y - start.y; i++) {
-		p = start.clone()
-		bresenhamsHelper(p, v, i)
-		out.push(p)
-	}
-
-	return out
-}
-
-function bresenhamsHelper(p, v, dy) {
-	p.y += dy
-	if(v.x != 0) {
-		p.x += dy / (v.y / v.x)
-	}
-	if(v.z != 0) {
-		p.z += dy / (v.y / v.z)
-	}
-}
 
 // Draws the shortest line from the given point to the given line
 function findPointToLine(start, end, point) {
@@ -106,25 +57,6 @@ function findPointToLine(start, end, point) {
 	return result
 }
 
-function findPointToLineEuclidean(start, end, point) {
-	let v0 = end.subtract(start)
-	let v1 = point.subtract(start)
-	let len = v0.len()
-	if(len == 0 && start.equals(end)) {
-		return { 'distance': 0, 'nearestPoint': start }
-	}
-	let t = v0.normalize().dot(v1.multiply(1.0/len))
-	if(t < 0.0) {
-		t = 0.0
-	}
-	if(t > 1.0) {
-		t = 1.0
-	}
-	let nearest = v0.multiply(t)
-	let dist = nearest.subtract(v1).len()
-	nearest = nearest.add(start)
-	return { 'distance': dist, 'nearestPoint': nearest }
-}
 
 function nullcheck(arg, name) {
 	if(arg == null) {

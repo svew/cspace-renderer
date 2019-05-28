@@ -61,8 +61,3 @@ abstract class CanvasSpace {
 		context.drawImage(this.canvas, 0, 0)
 	}
 }
-
-// A continuous 2D space, populated by polygons
-class FreeSpace2 extends CanvasSpace {
-
-}

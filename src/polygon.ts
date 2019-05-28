@@ -49,22 +49,7 @@ Convex.prototype.collidesVertex = function(v) {
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-function collidesLineLine(s0, e0, s1, e1) {
-	ax = e0.x - s0.x
-	ay = e0.y - s0.y
-	bx = s1.x - e1.x
-	by = s1.y - e1.y
-	dx = s1.x - s0.x
-	dy = s1.y - s0.y
-	det = ax*by - ay*bx
-	if(det == 0) {
-		return false
-	}
-	r = (dx*by - dy*bx) / det
-	s = (ax*dy - ay*dx) / det
 
-	return !(r < 0 || r > 1 || s < 0 || s > 1)
-}
 
 // To get rid of tiny rounding errors which change vertex order, but are too small
 // to change their angle when doing angle calculations

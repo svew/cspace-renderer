@@ -47,9 +47,6 @@ RRT.prototype._run = function(jobHandler) {
 		}
 		i += 1
 	}
-	jobHandler.finished = true
-	jobHandler.callback()
-	onDraw()
 }
 
 RRT.prototype.appendNewNode = function(v) {
