@@ -1,8 +1,6 @@
 
 // Defines a simple polygon
-class Polygon {
-	static readonly DEFAULT_STROKE_STYLE = 'rgb(255, 51, 0)'
-	static readonly DEFAULT_FILL_STYLE = 'rgb(255, 150, 100)'
+class Polygon  extends Drawable {
 
 	readonly vertices: Vector2[]
 	readonly n: number
@@ -14,23 +12,16 @@ class Polygon {
 		if(vertices.length < 1) {
 			throw Error("Polygon requires at least one vertex")
 		}
+		super(Color.ORANGE)
 		this.vertices = vertices
 		this.n = vertices.length
-		this.strokeStyle = Polygon.DEFAULT_STROKE_STYLE
-		this.fillStyle = Polygon.DEFAULT_FILL_STYLE
-	}
-
-	setColor(color: string) {
-		
 	}
 
 	draw(context: CanvasRenderingContext2D) {
+		super.draw(context)
 		if(this.n == 1) {
-			this.vertices[0].draw(context, this.strokeStyle)
+			this.vertices[0].draw(context)
 		} else {
-			context.strokeStyle = this.strokeStyle
-			context.fillStyle = this.fillStyle
-	
 			context.beginPath()
 			context.moveTo(this.vertices[0].x, this.vertices[0].y)
 			for(let i = 0; i <= this.n; i += 1) {

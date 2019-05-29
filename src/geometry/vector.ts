@@ -1,10 +1,11 @@
 
-abstract class Vector {
+class Vector extends Drawable {
 	readonly x: number
 	readonly y: number
 	readonly z: number
 
 	constructor(x: number, y: number, z?: number) {
+		super(Color.BLACK)
 		this.x = x
 		this.y = y
 		if(z == null) {
@@ -12,18 +13,65 @@ abstract class Vector {
 		}
 	}
 
-	abstract add(v: Vector): Vector
-	abstract subtract(v: Vector): Vector
-	abstract multiply(v: Vector): Vector
-	abstract divide(v: Vector): Vector
-
-	abstract unit(): Vector
-	abstract reverse(): Vector
-	abstract length(): number
-
-	abstract dot(v: Vector): number
-	abstract cross(v: Vector): Vector
-
+	add(x: Vector | number, y: number = 0, z: number = NaN): Vector {
+		if(x instanceof Vector) {
+			return new Vector(this.x + x.x, this.y + x.y, this.z + x.z)
+		} else {
+			return new Vector(this.x + x, this.y + y, this.z + z)
+		}
+	}
+	subtract(x: Vector | number, y: number = 0, z: number = NaN): Vector {
+		if(x instanceof Vector) {
+			return new Vector(this.x - x.x, this.y - x.y, this.z - x.z)
+		} else {
+			return new Vector(this.x - x, this.y - y, this.z - z)
+		}
+	}
+	multiply(x: Vector | number, y: number = 0, z: number = NaN): Vector {
+		if(x instanceof Vector) {
+			return new Vector(this.x * x.x, this.y * x.y, this.z * x.z)
+		} else {
+			return new Vector(this.x * x, this.y * y, this.z * z)
+		}
+	}
+	divide(x: Vector | number, y: number = 0, z: number = NaN): Vector {
+		if(x instanceof Vector) {
+			return new Vector(this.x / x.x, this.y / x.y, this.z / x.z)
+		} else {
+			return new Vector(this.x / x, this.y / y, this.z / z)
+		}
+	}
+	unit(): Vector {
+		let l = this.length()
+		return new Vector(this.x / l, this.y / l, this.z / l)
+	}
+	reverse(): Vector {
+		return new Vector(-this.x, -this.y, -this.z)
+	}
+	length(): number {
+		if(this.z == NaN) {
+			return Math.sqrt(this.x*this.x + this.y*this.y + this.z*this.z)
+		} else {
+			return Math.sqrt(this.x*this.x + this.y*this.y)
+		}
+	}
+	dot(v: Vector): number {
+		if(this.z == NaN) {
+			return this.x*v.x + this.y*v.y
+		} else {
+			return this.x*v.x + this.y*v.y + this.z*v.z
+		}
+	}
+	cross(v: Vector): Vector {
+		if(this.z == NaN) {
+			return new Vector(0, 0, this.x*v.y - this.y*v.x)
+		} else {
+			let cx = this.y*v.z - this.z*v.y
+			let cy = this.z*v.x - this.x*v.z
+			let cz = this.x*v.y - this.y*v.x
+			return new Vector(cx, cy, cz)
+		}
+	}
 	equals(v: Vector): boolean {
 		return this.x == v.x && this.y == v.y && this.z == v.z
 	}
@@ -34,84 +82,12 @@ abstract class Vector {
 			return "<" + this.x + ", " + this.y + ", " + this.z + ">"
 		}
 	}
-	draw(context: CanvasRenderingContext2D, color?: string) {
-		if(color == null) {
-			context.fillStyle = 'rgb(20, 20, 20)'
-		} else {
-			context.fillStyle = color
-		}
+	draw(context: CanvasRenderingContext2D) {
+		super.draw(context)
 		context.beginPath()
 		context.moveTo(this.x, this.y)
 		context.arc(this.x, this.y, 3, 0, Math.PI * 2)
-		context.fill()
-	}
-}
-
-class Vector2 extends Vector {
-	constructor(x: number, y: number) {
-		super(x, y)
-	}
-	add(v: Vector2): Vector2 {
-		return new Vector2(this.x + v.x, this.y + v.y)
-	}
-	subtract(v: Vector2): Vector2 {
-		return new Vector2(this.x - v.x, this.y - v.y)
-	}
-	multiply(v: Vector2): Vector2 {
-		return new Vector2(this.x * v.x, this.y * v.y)
-	}
-	divide(v: Vector2): Vector2 {
-		return new Vector2(this.x / v.x, this.y / v.y)
-	}
-	unit(): Vector2 {
-		let l = this.length()
-		return new Vector2(this.x / l, this.y / l)
-	}
-	reverse(): Vector2 {
-		return new Vector2(-this.x, -this.y)
-	}
-	length(): number {
-		return Math.sqrt(this.x*this.x + this.y*this.y)
-	}
-	dot(v: Vector): number {
-		return this.x*v.x + this.y*v.y
-	}
-	cross(v: Vector): Vector3 {
-		return new Vector3(0, 0, this.x*v.y - this.y*v.x)
-	}
-}
-
-class Vector3 extends Vector {
-	constructor(x: number, y: number, z: number) {
-		super(x, y, z)
-	}
-	add(v: Vector2): Vector3 {
-		return new Vector3(this.x + v.x, this.y + v.y, this.z + v.z)
-	}
-	subtract(v: Vector2): Vector3 {
-		return new Vector3(this.x - v.x, this.y - v.y, this.z - v.z)
-	}
-	multiply(v: Vector2): Vector3 {
-		return new Vector3(this.x * v.x, this.y * v.y, this.z * v.z)
-	}
-	divide(v: Vector2): Vector3 {
-		return new Vector3(this.x / v.x, this.y / v.y, this.z / v.z)
-	}
-	unit(): Vector3 {
-		let l = this.length()
-		return new Vector3(this.x / l, this.y / l, this.z / l)
-	}
-	reverse(): Vector3 {
-		return new Vector3(-this.x, -this.y, -this.z)
-	}
-	length(): number {
-		return Math.sqrt(this.x*this.x + this.y*this.y + this.z*this.z)
-	}
-	dot(v: Vector): number {
-		return this.x*v.x + this.y*v.y + this.z*v.z
-	}
-	cross(v: Vector): Vector {
-		throw new Error("Method not implemented.");
+		context.stroke()
 	}
 }
 
@@ -119,12 +95,6 @@ class Vector3 extends Vector {
 
 
 /*
-	i, j, k: Integers denoting direction vector is going in.
-
-var Vector2 = function(x, y) {
-	this.x = x
-	this.y = y
-}
 
 Vector2.prototype.cosangle = function(v) {
 	return this.dot(v) / (this.len() * v.len())
@@ -137,12 +107,6 @@ Vector2.prototype.rotateZ = function(degrees) {
 	let sx = this.x * Math.cos(rads) - this.y * Math.sin(rads)
 	let sy = this.x * Math.sin(rads) + this.y * Math.cos(rads)
 	return new Vector2(sx, sy)
-}
-Vector2.prototype.asVector2 = function() {
-	return this
-}
-Vector2.prototype.getVertices = function() {
-	return [ this ]
 }
 
 Vector3.prototype.rotateX = function(degrees) {
